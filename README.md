@@ -134,4 +134,3 @@ dbg_hex_iov_cond	Dump a hex buffer specified by a series of struct iovec
 			iovcnt	Number of items in the @vec array
 			fmt	Pointer to printf-like format string
 			...	Arguments to format string
-#endif	/* _HORD_DBG_H_ */
