@@ -41,9 +41,12 @@ DBG			This is the key one. If dbg.h is used, this must be
 			disabled, otherwise the specified messages will be
 			enabled.
 
-DBG_HEADER		This is a printf-like string that is interpreted and
-			printed before the rest of the debugging messages. The
-			interpolated format items are:
+DBG_HEADER		This is really the single most helpful part of dbg.
+			It describes a header to be appended to each line of
+			debugging output, things like the function name,
+			line number, time, etc.  It's a printf-like string that
+			is interpreted and supports the following interpolated
+			formatting items:
 
 			%%	The percent character
 
@@ -70,14 +73,14 @@ DBG_HEADER		This is a printf-like string that is interpreted and
 
 dbg_cond		Print a debugging message if a condition is met
 
-			cond:	Boolean expression
-			fmt:	Printf format string
-			...:	Arguments to the format string
+			cond	Boolean expression
+			fmt	Printf format string
+			...	Arguments to the format string
 
 dbg_t			Always print a debugging message
 
-			fmt:	Printf format string
-			...:	Arguments to the format string
+			fmt	Printf format string
+			...	Arguments to the format string
 
 			It is often the case that you want to flick debugging
 			messages on and off on an individual line basis. By
@@ -86,13 +89,13 @@ dbg_t			Always print a debugging message
 
 dbg_f			Never print the debugging message
 
-			fmt:	Printf format string
-			...:	Arguments to the format string
+			fmt	Printf format string
+			...	Arguments to the format string
 
 dbg			Always print a debugging message--synonym for dbg_t
 
-			fmt:	Printf format string
-			...:	Arguments to the format string
+			fmt	Printf format string
+			...	Arguments to the format string
 
 			This is shorter than dbg and can be used when you know
 			that you always want to see the messages when debugging
@@ -100,35 +103,35 @@ dbg			Always print a debugging message--synonym for dbg_t
 
 dbg_hex			Dump a hex buffer
 
-			in_buf:	Pointer to data to dump
-			size:	Number of bytes to dump
-			fmt:	Pointer to printf-like format string
-			...:	Arguments to format string
+			in_buf	Pointer to data to dump
+			size	Number of bytes to dump
+			fmt	Pointer to printf-like format string
+			...	Arguments to format string
 
 dbg_hex_cond		Dump a hex buffer if a condition is met
 
-			cond:	True to print the buffer, false otherwise
-			in_buf:	Pointer to data to dump
-			size:	Number of bytes to dump
-			fmt:	Pointer to printf-like format string
-			...:	Arguments to format string
+			cond	True to print the buffer, false otherwise
+			in_buf	Pointer to data to dump
+			size	Number of bytes to dump
+			fmt	Pointer to printf-like format string
+			...	Arguments to format string
 
 dbg_hex_iov		Dump a series of hex buffers using struct iovec
 			descriptors. The data is printed and number
 			contiguously with an asterisk inserted between
 			the sections specified by a struct iovec
 
-			vec:	Pointer to an array of struct iovec items
-			iovcnt:	Number of items in the @vec array
-			fmt:	Pointer to printf-like format string
-			...:	Arguments to format string
+			vec	Pointer to an array of struct iovec items
+			iovcnt	Number of items in the @vec array
+			fmt	Pointer to printf-like format string
+			...	Arguments to format string
 
 dbg_hex_iov_cond	Dump a hex buffer specified by a series of struct iovec
 			elements, when a condition is met
 
-			cond:	True to print the buffer, false otherwise
-			vec:	Pointer to an array of struct iovec items
-			iovcnt:	Number of items in the @vec array
-			fmt:	Pointer to printf-like format string
-			...:	Arguments to format string
+			cond	True to print the buffer, false otherwise
+			vec	Pointer to an array of struct iovec items
+			iovcnt	Number of items in the @vec array
+			fmt	Pointer to printf-like format string
+			...	Arguments to format string
 #endif	/* _HORD_DBG_H_ */
