@@ -79,7 +79,7 @@ dirs: $(TARGET_DIRS)
 _all:	dirs $(TARGETS)
 
 $(call install_files,staging, , \
-	include/hord/dbg.h, \
+	include/dbg.h, \
 	$(STAGING_DIR)/usr/include)
 
 $(call install_files,staging, , \

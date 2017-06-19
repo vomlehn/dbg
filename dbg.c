@@ -30,7 +30,7 @@
 #define N_ROW_ITEMS	16u
 
 #define DBG	1
-#include <dbg.h>
+#include <include/dbg.h>
 
 /*
  * dbg_add_hdr - add a string for the debug header
