@@ -79,7 +79,8 @@ dirs: $(TARGET_DIRS)
 _all:	dirs $(TARGETS)
 
 $(call install_files,staging, , \
-	include/dbg.h, \
+	include/dbg.h \
+	include/gettid.h, \
 	$(STAGING_DIR)/usr/include)
 
 $(call install_files,staging, , \
