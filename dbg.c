@@ -8,15 +8,26 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifdef __linux__
+#define HAS_GETTID
+#endif	/* __linux */
+
+#ifdef HAS_GETTID
+#include <sys/syscall.h>
+
+pid_t gettid(void);
+
+pid_t __attribute((weak)) gettid(void)
+{
+	return syscall(SYS_gettid);
+}
+#endif
+
 #if 1
 #define	EOL	"\r\n"
 #else
 #define EOL	"\n"
 #endif
-
-#ifdef __linux__
-#define HAS_GETTID
-#endif	/* __linux */
 
 /* From https://dustri.org/b/min-and-max-macro-considered-harmful.html */
 #define MIN(a,b) \

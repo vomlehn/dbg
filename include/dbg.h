@@ -39,8 +39,6 @@ static inline int __dbg_hex_iov(bool cond, const char *file, const char *func,
 #if DBG
 #include <stdarg.h>
 
-#include <gettid.h>
-
 /*
  * DBG_HEADER - control string to print before general debugging message
  * This consists of a series of characters with embedded formatting control
