@@ -34,6 +34,9 @@ $(call libso_paths,dbg): $(LIBDBG_OBJS)
 	       	$^ $(LDFLAGS) \
 		-o $@
 
+$(call liba_paths,dbg): $(LIBDBG_OBJS)
+	$(AR) r $@ $^
+
 # Configuration things
 
 SRCS += $(LIBDBG_SRCS)
@@ -59,7 +62,8 @@ clean::
 clobber:: clean
 	rm -f .makedepend .makedepend.bak
 
-TARGETS	+= $(LIB_DIR)/libdbg.so
+TARGETS	+= $(LIB_DIR)/libdbg.a \
+	$(LIB_DIR)/libdbg.so
 
 TARGET_DIRS = $(sort $(dir $(TARGETS)))
 
@@ -84,6 +88,7 @@ $(call install_files,staging, , \
 	$(STAGING_DIR)/usr/include)
 
 $(call install_files,staging, , \
+	$(LIB_DIR)/libdbg.a \
 	$(LIB_DIR)/libdbg.so, \
 	$(STAGING_DIR)/usr/lib)
 
