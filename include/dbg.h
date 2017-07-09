@@ -39,6 +39,13 @@ static inline int __dbg_hex_iov(bool cond, const char *file, const char *func,
 #if DBG
 #include <stdarg.h>
 
+extern FILE *dbg_out;
+
+static inline void dbg_set_out(FILE *fp)
+{
+	dbg_out = fp;
+}
+
 /*
  * DBG_HEADER - control string to print before general debugging message
  * This consists of a series of characters with embedded formatting control
@@ -114,6 +121,10 @@ static inline int __dbg_hex_iov(bool cond, const char *file, const char *func,
 	return rc;
 }
 #else
+static inline void dbg_set_out(FILE *fp)
+{
+}
+
 static inline int __dbg(bool cond, const char *file, const char *func,
 	unsigned line, const char *fmt, ...)
 {

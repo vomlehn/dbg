@@ -43,6 +43,14 @@ pid_t __attribute((weak)) gettid(void)
 #define DBG	1
 #include <include/dbg.h>
 
+FILE *dbg_out;
+
+static void dbg_out_init(void)
+{
+	if (dbg_out == NULL)
+		dbg_out = stderr;
+}
+
 /*
  * dbg_add_hdr - add a string for the debug header
  * @hdr:	Pointer to a pointer to the header format
@@ -128,6 +136,8 @@ int __vdbg(const char *hdr, const char *file, const char *func, unsigned lineno,
 	int remaining, rc, rc2;
 	char c;
 
+	dbg_out_init();
+
 	rc = 0;
 	p = buf;
 	remaining = sizeof(buf);
@@ -172,7 +182,7 @@ int __vdbg(const char *hdr, const char *file, const char *func, unsigned lineno,
 	} while (rc >= 0 && c != '\0');
 
 	if (rc >= 0) {
-		rc2 = printf("%s", buf);
+		rc2 = fprintf(stdout, "%s", buf);
 		if (rc2 < 0)
 			rc = rc2;
 	}
@@ -197,6 +207,8 @@ int __vdbg_hex(const char *hdr, const char *file, const char *func,
 {
 	unsigned i;
 
+
+	dbg_out_init();
 	__vdbg(hdr, file, func, lineno, fmt, ap);
 
 	for (i = 0; i < (size + N_ROW_ITEMS - 1) / N_ROW_ITEMS; i++) {
@@ -229,7 +241,7 @@ int __vdbg_hex(const char *hdr, const char *file, const char *func,
 			remaining -= rc;
 			sep = " ";
 		}
-		rc = printf("%s%s", out_buf, EOL);
+		rc = fprintf(dbg_out, "%s%s", out_buf, EOL);
 		if (rc < 0)
 			return rc;
 	}
@@ -262,6 +274,7 @@ int __vdbg_hex_iov(const char *hdr, const char *func, const char *file,
 	const char *sep;
 	int rc;
 
+	dbg_out_init();
 	__vdbg(hdr, file, func, lineno, fmt, ap);
 
 	rc = 0;
@@ -290,7 +303,7 @@ int __vdbg_hex_iov(const char *hdr, const char *func, const char *file,
 
 			i++;
 			if ((i % N_ROW_ITEMS) == 0) {
-				printf("%s%s", out_buf, EOL);
+				fprintf(dbg_out, "%s%s", out_buf, EOL);
 				p = out_buf;
 				remaining = sizeof(out_buf);
 			}
