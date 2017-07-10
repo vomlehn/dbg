@@ -17,21 +17,35 @@ endef
 # $(3)	Name of directory
 define install_file
 $(3)/$(notdir $(2)): $(2)
-	echo installing $(2) in $$@
+	@echo installing $(2) in $$@
 	install $(1) -D $(2) $$@
+endef
+
+# install_setuid_file - install a file in a directory
+# $(1)	Arguments to install
+# $(2)	Name of file
+# $(3)	Name of directory
+define install_setuid_file
+$(3)/$(notdir $(2)): $(2)
+	@echo installing SETUID $(2) in $$@
+	install $(1) -D $(2) $$@
+	chmod u+s $$(@)
 endef
 
 # install_files - install a list of files in a directory. The list of files
 #	can be in a mixed back of directories but will all wind up in the
 #	same directory.
-# $(1)	Target to use
+# $(1)	Make target that will be used to make the files
 # $(2)	Arguments to install
-# $(3)	List of files
-# $(4)	Destination directory
+# $(3)	List of files to be installed
+# $(4)	List of files to be installed as setuid
+# $(5)	Destination directory
 define install_files
-$(1): $(foreach file,$(3),$(4)/$(notdir $(strip $(file))))
+$(1): $(foreach file,$(3) $(4),$(5)/$(notdir $(strip $(file))))
 
-$(foreach file,$(3),$(eval $(call install_file,$(2),$(strip $(file)),$(4))))
+$(foreach file,$(3),$(eval $(call install_file,$(2),$(strip $(file)),$(5))))
+$(foreach file,$(4),\
+	$(eval $(call install_setuid_file,$(2),$(strip $(file)),$(5))))
 endef
 
 # Generate a simple rule where a target depends upon a dependency
