@@ -78,20 +78,42 @@ endef
 
 $(foreach dir,$(TARGET_DIRS),$(eval $(call mk_target_dir,$(dir))))
 
+LIBS += \
+	$(LIB_DIR)/libdbg.a \
+	$(LIB_DIR)/libdbg.so \
+
+HEADERS += \
+	   include/dbg.h
+
+# Create a directory
+# $(1)	Path of directory to create
+define mk_target_dir
+$(1):
+	mkdir -p $$@
+endef
+
+$(foreach dir,$(TARGET_DIRS),$(eval $(call mk_target_dir,$(dir))))
+
 dirs: $(TARGET_DIRS)
 
 _all:	dirs $(TARGETS)
 
 $(call install_files,staging, , \
-	include/dbg.h \
-	include/gettid.h, \
+	$(HEADERS), , \
 	$(STAGING_DIR)/usr/include)
 
 $(call install_files,staging, , \
-	$(LIB_DIR)/libdbg.a \
-	$(LIB_DIR)/libdbg.so, \
+	$(LIBS), \
 	$(STAGING_DIR)/usr/lib)
 
 $(call install_files,install, , \
 	$(LIB_DIR)/libdbg.so, \
 	$(TARGET_DIR)/usr/lib)
+
+$(call install_files,host-install, , \
+	$(HEADERS), , \
+	$(HOST_DIR)/usr/include)
+
+$(call install_files,host-install, , \
+	$(LIBS), , \
+	$(HOST_DIR)/usr/lib)
