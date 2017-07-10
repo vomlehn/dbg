@@ -78,12 +78,12 @@ endef
 
 $(foreach dir,$(TARGET_DIRS),$(eval $(call mk_target_dir,$(dir))))
 
-LIBS += \
-	$(LIB_DIR)/libdbg.a \
-	$(LIB_DIR)/libdbg.so \
-
 HEADERS += \
 	   include/dbg.h
+
+LIBS += \
+	$(LIB_DIR)/libdbg.a \
+	$(LIB_DIR)/libdbg.so
 
 # Create a directory
 # $(1)	Path of directory to create
@@ -103,11 +103,11 @@ $(call install_files,staging, , \
 	$(STAGING_DIR)/usr/include)
 
 $(call install_files,staging, , \
-	$(LIBS), \
+	$(LIBS), , \
 	$(STAGING_DIR)/usr/lib)
 
 $(call install_files,install, , \
-	$(LIB_DIR)/libdbg.so, \
+	$(LIB_DIR)/libdbg.so, , \
 	$(TARGET_DIR)/usr/lib)
 
 $(call install_files,host-install, , \
